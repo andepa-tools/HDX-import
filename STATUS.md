@@ -52,3 +52,6 @@ Detta avsnitt ersätter de tidigare nästa stegen om att lokalisera Manual-käll
 4. Inventera fullversionens separata utvecklingsunderlag när arbete med den beställs.
 
 Överföringen levereras genom pull request #1. Kontrollera dess GitHub-status för att avgöra om den är införd på main. Automatisk kontroll finns i .github/workflows/manual.yml; lokala kontroller ovan är genomförda, fjärrkörningens resultat måste läsas separat.
+
+## Bekräftat införande – 2026-11-04
+Pull request #1 är sammanfogad med main (mergecommit `019a2b89424542c27b3157596181f03875746b64`). [GitHubs Windows-kontroll](https://github.com/andepa-tools/HDX-import/actions/runs/41803055311) passerade både samtliga simulerade tester och EXE/MSIX-bygget från en ny hämtning. Manual-underlaget är därmed tillgängligt på huvudgrenen. Uppgiften att införa samarbetsunderlaget är klar. Store-publicering och andra assistenters egna anslutningar ingår inte i denna verifiering.
