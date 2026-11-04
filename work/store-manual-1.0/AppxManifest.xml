@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+ xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+ xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+ IgnorableNamespaces="uap rescap">
+ <Identity Name="AndePa.HDXImportManual" Publisher="CN=65DE98D9-A94B-4399-A127-8022387129DF" Version="1.0.0.0" ProcessorArchitecture="x64" />
+ <Properties><DisplayName>HDX Import Manual</DisplayName><PublisherDisplayName>AndePa</PublisherDisplayName><Logo>Assets\StoreLogo.png</Logo><Description>Manuell import av saknade svenska ISO-transpondernummer till DelPro.</Description></Properties>
+ <Dependencies><TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.26100.0" /></Dependencies>
+ <Resources><Resource Language="sv-SE" /></Resources>
+ <Applications><Application Id="App" Executable="HDXImportManual.exe" EntryPoint="Windows.FullTrustApplication">
+  <uap:VisualElements DisplayName="HDX Import Manual" Description="Manuell import av saknade svenska ISO-transpondernummer till DelPro." BackgroundColor="transparent" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" />
+ </Application></Applications>
+ <Capabilities><rescap:Capability Name="runFullTrust" /></Capabilities>
+</Package>

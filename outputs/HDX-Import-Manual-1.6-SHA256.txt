@@ -1,0 +1,2 @@
+cba0a098165bb3004d7635a1264010c32dfd31600ba8a63a5a8039626712119c  HDX-Import-Manual-Test-1.6.exe
+420cb2d75e22845c908577652c3a202e8bda671e2afd4a55c7bba1387cefd93b  HDX-Import-Manual-1.6.0.0-x64.msix

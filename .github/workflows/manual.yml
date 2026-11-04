@@ -1,0 +1,20 @@
+name: Manual – tester och bygge
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Simulerade tester för Test och Store
+        run: python work/run_tests.py
+      - name: Bygg test-EXE och osignerat MSIX
+        run: python work/build_manual_free.py
