@@ -55,3 +55,6 @@ Detta avsnitt ersätter de tidigare nästa stegen om att lokalisera Manual-käll
 
 ## Bekräftat införande – 2026-11-04
 Pull request #1 är sammanfogad med main (mergecommit `019a2b89424542c27b3157596181f03875746b64`). [GitHubs Windows-kontroll](https://github.com/andepa-tools/HDX-import/actions/runs/41803055311) passerade både samtliga simulerade tester och EXE/MSIX-bygget från en ny hämtning. Manual-underlaget är därmed tillgängligt på huvudgrenen. Uppgiften att införa samarbetsunderlaget är klar. Store-publicering och andra assistenters egna anslutningar ingår inte i denna verifiering.
+
+## Publiceringsstatus – 2026-11-04
+Användaren bekräftar att **HDX Import Manual 1.6 är publicerad**. Detta ersätter tidigare uppgifter ovan om att versionen väntar på publicering. Uppgiften bygger på användarens bekräftelse; Store-sidan och uppdatering på kunddator har inte kontrollerats direkt i denna uppdatering. Fullversion 3.10 har fortsatt separat versionsserie.
