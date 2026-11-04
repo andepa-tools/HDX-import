@@ -8,3 +8,5 @@ Kontrollera aktuell gren och öppna pull requests innan du fortsätter en annan 
 Om GitHub-åtkomst saknas, be användaren om åtkomst eller aktuella filer och ange tydligt vad du inte kunnat verifiera.
 
 Avsluta varje uppgift med en överlämning i STATUS.md enligt AGENTS.md.
+
+För källkod, Windows-miljö, testkommandon och bygge, läs [DEVELOPMENT.md](DEVELOPMENT.md). Utgå från huvudgrenen och kontrollera den aktuella statusen innan en ny uppgift påbörjas.

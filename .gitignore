@@ -1,0 +1,26 @@
+# Byggresultat, tillfälliga körningar och lokala beroenden
+*.exe
+*.msix
+*.msixbundle
+*.zip
+*.log
+*.pfx
+*.p12
+*.cer
+*.key
+*.pem
+__pycache__/
+.env
+.env.*
+work/test-signing-private/
+work/windows-sdk-buildtools-26100/
+work/store-manual-*/
+!work/store-manual-1.0/
+work/access-*/
+work/b-tests-*/
+work/transponder-display-test.txt
+work/manual-B-val.png
+outputs/HDXimport-B-val-i-manuell-flik.png
+outputs/*-SHA256.txt
+!outputs/HDX-Import-Manual-1.6-SHA256.txt
+Runs/

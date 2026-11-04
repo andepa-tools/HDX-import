@@ -20,3 +20,6 @@ README anger stöd för svenska SE-ID och landskod 752. Release v3.10 beskriver 
 
 ## Överlämning
 Uppdatera STATUS.md med datum, uppgift, gren/pull request, genomförda ändringar, kontrollresultat, hinder och ett konkret nästa steg. Nästa assistent ska läsa GitHub-läget på nytt; en chatt eller gammal status är inte bevis på att en ändring är införd.
+
+## Uppdatering 2026-11-04 – utvecklingsunderlag
+Den ursprungliga inventeringen ovan avser läget före denna överföring. Manual 1.6-källkod, byggunderlag och simulerade tester finns nu här. Följ [DEVELOPMENT.md](DEVELOPMENT.md). Kör `python work/run_tests.py` och, när byggunderlag ändras, `python work/build_manual_free.py` på Windows i en ren arbetskopia. Ingen automatisk Store-publicering eller verklig DelPro-import ingår i testerna. Fullversionens kompletta källkod ingår ännu inte.

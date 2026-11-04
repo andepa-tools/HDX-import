@@ -25,3 +25,7 @@ Svenska SE-ID och landskod 752. Stöd för andra länder ingår inte för närva
 Installera på DelPro-datorn. I utrustningsträdet ska **Använd kommandorad ISO** vara ibockad under ISO-processorn. ISO-processorn behöver inte vara aktiv.
 
 HDX import är ett fristående verktyg för import till DelPro. Detta projekt används för installationsfiler, dokumentation och versionsinformation.
+
+## Utveckling och AI-samarbete
+
+Utvecklingsunderlag för **HDX Import Manual 1.6** finns nu i repot. Manual/Store och fullversion 3.10 har separata versionsserier. Läs [DEVELOPMENT.md](DEVELOPMENT.md) för bygge och tester, [AGENTS.md](AGENTS.md) för gemensamma arbetsregler och [STATUS.md](STATUS.md) för aktuell överlämning. Claude börjar även i [CLAUDE.md](CLAUDE.md).
