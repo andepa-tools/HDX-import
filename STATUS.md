@@ -58,3 +58,26 @@ Pull request #1 är sammanfogad med main (mergecommit `019a2b89424542c27b3157596
 
 ## Publiceringsstatus – 2026-11-04
 Användaren bekräftar att **HDX Import Manual 1.6 är publicerad**. Detta ersätter tidigare uppgifter ovan om att versionen väntar på publicering. Uppgiften bygger på användarens bekräftelse; Store-sidan och uppdatering på kunddator har inte kontrollerats direkt i denna uppdatering. Fullversion 3.10 har fortsatt separat versionsserie.
+
+## Aktuell överlämning – 2026-11-05
+
+Datum och assistent: 2026-11-05, ChatGPT/Codex.
+Uppgift: publicera fullversion 3.11 efter Patriks godkännande och lämna dokumentationen för granskning.
+Gren: `codex/release-3.11-handoff`, pull request mot main. Dokumentationen är ett förslag tills PR:n har slagits samman.
+
+### Genomfört och verifierat
+
+- **HDX import 3.11 är publicerad som Latest**: [release v3.11](https://github.com/andepa-tools/HDX-import/releases/tag/v3.11). Mål: main. Inte pre-release.
+- Patrik har enligt sitt uttryckliga publiceringsuppdrag testat och godkänt 3.11 på DelPro-datorn. Ingen ny installation eller DelPro-import kördes vid publiceringen.
+- Releasetexten motsvarar den godkända lokala releasetexten för 3.11; GitHub använder CRLF-radslut.
+- Exakt fyra filer har laddats upp: HDXimport-Installation-v3.11.exe, HDXimport-Installation.exe, HDXimport-v3.11-LasMig.pdf och HDXimport-v3.11-SHA256.txt.
+- [GitHubs latest-API](https://api.github.com/repos/andepa-tools/HDX-import/releases/latest) returnerade `tag_name: v3.11`. Båda EXE-filerna har storleken **5491200 byte** och `asset.digest: sha256:aac58e8fc4cf92bc70911f17b42cfd0b5953f1ee914bffc0d5f80cf7ffb8733f`, identiskt med de lokala filerna.
+- [Den fasta nedladdningslänken](https://github.com/andepa-tools/HDX-import/releases/latest/download/HDXimport-Installation.exe) hämtades efter publiceringen. Nedladdade bytes har samma SHA-256 och storlek som 3.11-filen. Filen kördes inte.
+- Äldre releaser v3.8, v3.9 och v3.10 har jämförts före och efter. Releasetexter, filidentiteter, digest, storlekar och ändringstider är oförändrade.
+- **HDX Import Manual 1.7 är inskickad till Microsoft Store**, enligt Patriks uppgift i detta uppdrag. Publicering av 1.7 och uppdatering hos Store-kunder har inte verifierats; Partner Center kontrollerades inte i publiceringsarbetet.
+- README:s Förutsättningar har förtydligats: Use Command Line ISO under Devices → ISOProcessor ska vara ibockad; ISOProcessor behöver inte vara aktiv.
+- Denna PR ändrar endast README.md och STATUS.md. Ingen källkod, binär eller privat fil ingår i PR:n.
+
+### Hinder och nästa steg
+
+Publiceringen är klar utan kvarstående hinder. Granska dokumentations-PR:n; den ska inte slås samman automatiskt. Följ upp Store-beskedet för Manual 1.7. Nästa assistent ska läsa GitHub-läget på nytt och hålla Manual/Store och fullversionens versionsspår åtskilda.

@@ -22,7 +22,7 @@ Svenska SE-ID och landskod 752. Stöd för andra länder ingår inte för närva
 
 ## Förutsättningar
 
-Installera på DelPro-datorn. I utrustningsträdet ska **Använd kommandorad ISO** vara ibockad under ISO-processorn. ISO-processorn behöver inte vara aktiv.
+Installera på DelPro-datorn. I DelPro ska Use Command Line ISO vara ibockad under Devices → ISOProcessor. ISOProcessor behöver inte vara aktiv.
 
 HDX import är ett fristående verktyg för import till DelPro. Detta projekt används för installationsfiler, dokumentation och versionsinformation.
 
