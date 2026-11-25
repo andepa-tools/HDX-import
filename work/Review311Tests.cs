@@ -1,11 +1,21 @@
 ﻿using System;using System.IO;using System.Linq;using System.Reflection;using System.Windows.Forms;using System.Drawing;
 class ReviewForm:MainForm{
+ [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+ struct MinMaxInfo{public Point Reserved,MaxSize,MaxPosition,MinTrackSize,MaxTrackSize;}
  [System.Runtime.InteropServices.DllImport("user32.dll",SetLastError=true)]
  static extern bool SetWindowPos(IntPtr window,IntPtr after,int x,int y,int width,int height,uint flags);
- // Form.SetBoundsCore clamps to SystemInformation.MaxWindowTrackSize even when
- // MinimumSize/MaximumSize are set. Size only this test window via Win32, keeping
- // the production border, fonts, controls and layout unchanged.
- public void RenderAt(Size size){if(!SetWindowPos(Handle,IntPtr.Zero,0,0,size.Width,size.Height,0x0016))throw new System.ComponentModel.Win32Exception();}
+ Size renderSize;
+ // Only the test window may render beyond the CI desktop. Preserve production
+ // borders/fonts/layout; bypass both managed and native tracking-size limits.
+ protected override void WndProc(ref Message message){
+  base.WndProc(ref message);
+  if(message.Msg==0x0024&&!renderSize.IsEmpty){
+   var limits=(MinMaxInfo)System.Runtime.InteropServices.Marshal.PtrToStructure(message.LParam,typeof(MinMaxInfo));
+   limits.MaxSize=new Point(renderSize.Width,renderSize.Height);limits.MaxTrackSize=limits.MaxSize;
+   System.Runtime.InteropServices.Marshal.StructureToPtr(limits,message.LParam,false);
+  }
+ }
+ public void RenderAt(Size size){renderSize=size;if(!SetWindowPos(Handle,IntPtr.Zero,0,0,size.Width,size.Height,0x0016))throw new System.ComponentModel.Win32Exception();}
  protected override void OnShown(EventArgs e){}
 }
 class Review311Tests{
