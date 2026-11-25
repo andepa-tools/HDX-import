@@ -1,5 +1,13 @@
 ﻿using System;using System.IO;using System.Linq;using System.Reflection;using System.Windows.Forms;using System.Drawing;
-class ReviewForm:MainForm{protected override void OnShown(EventArgs e){}}
+class ReviewForm:MainForm{
+ [System.Runtime.InteropServices.DllImport("user32.dll",SetLastError=true)]
+ static extern bool SetWindowPos(IntPtr window,IntPtr after,int x,int y,int width,int height,uint flags);
+ // Form.SetBoundsCore clamps to SystemInformation.MaxWindowTrackSize even when
+ // MinimumSize/MaximumSize are set. Size only this test window via Win32, keeping
+ // the production border, fonts, controls and layout unchanged.
+ public void RenderAt(Size size){if(!SetWindowPos(Handle,IntPtr.Zero,0,0,size.Width,size.Height,0x0016))throw new System.ComponentModel.Win32Exception();}
+ protected override void OnShown(EventArgs e){}
+}
 class Review311Tests{
  static BindingFlags F=BindingFlags.NonPublic|BindingFlags.Instance;static void Check(bool ok,string message){if(!ok)throw new Exception(message);}
  static System.Collections.Generic.IEnumerable<Control> All(Control root){foreach(Control c in root.Controls){yield return c;foreach(var x in All(c))yield return x;}}
@@ -14,9 +22,9 @@ class Review311Tests{
  // Windows can clamp a normal window to the CI desktop's maximum tracking size.
  // This test measures an explicit rendering viewport, not the runner's monitor.
  Size desktopConstrained=form.Size;
- form.MinimumSize=size;form.MaximumSize=size;form.Size=size;Pump();
+ form.RenderAt(size);Pump();
  Check(form.Size==size,"requested review viewport was not applied: "+form.Size);
- using(var graphics=form.CreateGraphics())Console.WriteLine("Review viewport: requested="+size+", before pin="+desktopConstrained+", actual="+form.Size+", client="+form.ClientSize+", screen="+Screen.FromControl(form).Bounds+", working="+Screen.FromControl(form).WorkingArea+", dpi="+graphics.DpiY);
+ using(var graphics=form.CreateGraphics())Console.WriteLine("Review viewport: requested="+size+", before pin="+desktopConstrained+", actual="+form.Size+", client="+form.ClientSize+", screen="+Screen.FromControl(form).Bounds+", working="+Screen.FromControl(form).WorkingArea+", maxTrack="+SystemInformation.MaxWindowTrackSize+", dpi="+graphics.DpiY);
  var grid=(DataGridView)typeof(MainForm).GetField("grid",F).GetValue(form);var panel=(Panel)typeof(MainForm).GetField("bPanel",F).GetValue(form);var layout=(TableLayoutPanel)grid.Parent;
  Check(layout.RowCount==10&&layout.GetRow(grid)==7&&layout.RowStyles.Cast<RowStyle>().Count(r=>r.SizeType==SizeType.Percent)==1&&layout.RowStyles[7].SizeType==SizeType.Percent&&layout.RowStyles[7].Height==100,"only grid grows");Check(layout.RowStyles[5].SizeType==SizeType.AutoSize&&!panel.Visible&&layout.GetRowHeights()[5]==0,"hidden B consumes zero height");Check(grid.Height>=150,"table before read height "+grid.Height);Check(((Label)typeof(MainForm).GetField("summary",F).GetValue(form)).Text=="","no duplicate initial help");
  foreach(var button in layout.GetControlFromPosition(0,9).Controls.OfType<Button>()){Check(button.Text.Length>0&&button.Visible,"file button text/visibility");Check(button.Bottom<=button.Parent.ClientSize.Height&&button.Height>=TextRenderer.MeasureText(button.Text,button.Font).Height+8,"file button clipped: "+button.Text+" bottom="+button.Bottom+" parent="+button.Parent.ClientSize.Height+" button="+button.Height);}
