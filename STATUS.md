@@ -87,3 +87,5 @@ Patrik bekräftar att **HDX Import Manual 1.7 redan är publicerad i Microsoft S
 - Kontroller: koden har inte kompilerats eller körts lokalt (ingen Windows/.NET i Claudes miljö). Kompilering och simulerade tester ska läsas i GitHub Actions för PR:n och köras av Patrik på Windows. Ingen DelPro-anslutning.
 - Känt hinder: CI för PR #3 fallerade redan före denna ändring i Review311Tests ("30 animals must show at least 8 complete rows; actual 7"), troligen på grund av fönster/DPI på GitHubs Windows-maskin. Codex rapporterade lokalt godkänt.
 - Nästa steg: Patrik bygger grenen med `python work/run_tests.py` och `python work/build_manual_free.py`, granskar utseendet och lämnar synpunkter. Ingen version höjd, ingen release.
+- CI-resultat 2026-11-25 (commit c1d625d): kompilering OK; AccessTests, BTests, DisplayTests, Round3Tests och Round2Tests godkända. Körningen stoppade sedan i Review311Tests med samma fel som PR #3 (7 av 8 rader). Testerna efter Review311Tests, bl.a. Ui311Tests och Visual311Tests, har därför inte körts i CI och måste köras lokalt på Windows.
+- En första version bröt Round3Tests (grå bakgrund vid saknad ISO-sökväg); rättat i c1d625d.
