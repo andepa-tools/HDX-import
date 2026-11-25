@@ -75,3 +75,15 @@ Användaren bekräftar att **HDX Import Manual 1.6 är publicerad**. Detta ersä
 
 ## Bekräftad Store-publicering – 2026-11-25
 Patrik bekräftar att **HDX Import Manual 1.7 redan är publicerad i Microsoft Store**. Detta ersätter tidigare uppgifter om enbart inskickad version eller okänd publiceringsstatus. Datumet avser bekräftelsen; det faktiska publiceringsdatumet har inte angetts. Källkodsöverföringen ligger i [PR #3](https://github.com/andepa-tools/HDX-import/pull/3), gren `codex/manual-1.7-source`, utan merge. Endast dokumentationen uppdateras med denna uppgift; produktkod och tidigare testresultat är oförändrade. Store-sidan, Partner Centers uppladdade fil och uppdatering på kunddator har inte kontrollerats direkt. Nästa steg är fortsatt granskning av PR #3 och samordning med PR #2.
+
+## Överlämning – 2026-11-25 (Claude)
+- Uppgift: tydligare knappar i Manual 1.7 enligt Patriks godkända skiss.
+- Gren: `claude/manual-1.7-knappar`, utgår från `codex/manual-1.7-source` (PR #3). Pull request mot main, ingen merge.
+- Ändrat i outputs/HdxImportSv.cs (endast utseende, ingen logik):
+  - Knappen för nästa steg är stor (Segoe UI 11 fet, minst 44 px) och fylld: Läs = blå, Skriv = grön. Stegraden får samma färg.
+  - Den knapp som inte är nästa steg blir liten och grå med kontur. Läs-knappen heter "Läs igen" när en lista redan är inläst.
+  - Öppna svarsfil, Spara läsbegäran, Spara importfil, Inställningar, Om programmet, Så ställer du in DelPro, Testa anslutningen och Stäng är små grå knappar (9 pt, 28 px).
+  - Raka hörn (FlatStyle). Rundade hörn ingår inte.
+- Kontroller: koden har inte kompilerats eller körts lokalt (ingen Windows/.NET i Claudes miljö). Kompilering och simulerade tester ska läsas i GitHub Actions för PR:n och köras av Patrik på Windows. Ingen DelPro-anslutning.
+- Känt hinder: CI för PR #3 fallerade redan före denna ändring i Review311Tests ("30 animals must show at least 8 complete rows; actual 7"), troligen på grund av fönster/DPI på GitHubs Windows-maskin. Codex rapporterade lokalt godkänt.
+- Nästa steg: Patrik bygger grenen med `python work/run_tests.py` och `python work/build_manual_free.py`, granskar utseendet och lämnar synpunkter. Ingen version höjd, ingen release.
