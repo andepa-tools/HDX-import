@@ -28,7 +28,7 @@ Original-MSIX innehåller byteidentiskt den bevarade Store-EXE:n. `python work/b
 - Test: `15c4058d068fd22cb3518d3b5373d343cf1f0eb726cf95fdf9e89f8b37a46397`.
 - Store: `f3b13ad2b6bc84107d288ca5c597c981fa99279438837005dc1249b1ff800b00`.
 
-Användarens tidigare bekräftelse är källan för att Manual 1.7 har skickats till Store. Ingen direkt kontroll av Partner Centers uppladdade fil eller publiceringsstatus har gjorts. Verifieringen knyter källan till de bevarade lokala leveranserna; den bevisar inte Store-uppladdning eller funktion mot verklig DelPro.
+Patrik bekräftar 2026-11-25 att Manual 1.7 redan är publicerad i Microsoft Store. Detta ersätter tidigare uppgift om enbart inskickad version. Det faktiska publiceringsdatumet har inte angetts. Ingen direkt kontroll av Partner Centers uppladdade fil eller publiceringsstatus har gjorts. Verifieringen knyter källan till de bevarade lokala leveranserna; den bevisar inte Store-uppladdning eller funktion mot verklig DelPro.
 
 ## Överföringens avgränsning
 Byggskriptet behåller main-grenens SDK-sökning och lägger till 1.7-guidens två bildresurser. Testskriptet kör endast Manual-definitionerna med lokala mockprogram. De gemensamma originalkällorna innehåller även villkorligt utesluten fullversionskod, men fullversionens kompletta underlag överförs inte. EXE, MSIX, SDK, certifikat, nycklar, testutdata och verkliga gårds-/djurdata ingår inte. Originaltesternas syntetiska exempeldata är bevarade.

@@ -43,6 +43,8 @@ Ta en avgränsad GitHub-uppgift, arbeta på en egen gren och lämna en pull requ
 En assistent behöver egen åtkomst till GitHub genom sin tjänst eller en lokal klon. Dessa instruktioner ger inte automatiskt en AI skrivbehörighet. Publicering till Store och ändringar av verkliga DelPro-data kräver ett särskilt uppdrag.
 
 ## Manual 1.7 – överföring 2026-11-25
+Manual 1.7 är redan publicerad i Microsoft Store enligt Patriks bekräftelse 2026-11-25. Bekräftelsedatumet är inte ett fastställt publiceringsdatum.
+
 Produktkällorna är originalfiler från lokal tagg `manual-1.7.0.0`, commit `9dba65b`, före fullversionens senare 3.12-ändringar. Ingen produktkod har rekonstruerats eller ändrats för överföringen. Källorna innehåller även historiska villkorliga delar för fullversionen; dess kompletta byggunderlag ingår inte.
 
 Färgförklaringen ovanför knapparna, DelPro-guiden och anslutningstestet finns i detta underlag. De två PNG-bilderna i `outputs/bilder` är nödvändiga guide-/dokumentationsresurser och bäddas in som CmdTree och CmdSetting. Byggskriptet behåller main-grenens portabla SDK-sökning och överskrivningsskydd.
