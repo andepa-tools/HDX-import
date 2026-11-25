@@ -1,6 +1,6 @@
 # Utveckling av HDX Import Manual
 
-Detta repo innehåller nu utvecklingsunderlag för **Manual 1.6**. Fullversion 3.10 har separat versionsserie och dess kompletta källkod och installationsprojekt ingår inte i denna överföring. Befintliga releaser bevaras.
+Detta repo innehåller nu utvecklingsunderlag för **Manual 1.7**. Fullversion 3.12 har separat versionsserie och dess kompletta källkod och installationsprojekt ingår inte i denna överföring. Befintliga releaser bevaras.
 
 ## Kom igång
 1. Hämta repot och läs AGENTS.md, STATUS.md och DECISIONS.md. Claude läser också CLAUDE.md.
@@ -20,7 +20,7 @@ Bygget skapar en fristående test-EXE, ett osignerat MSIX-paket och SHA256-kontr
 ## Filer
 | Plats | Innehåll |
 | --- | --- |
-| outputs/*.cs | Befintlig Manual-källkod, bevarad från det lokala 1.6-underlaget |
+| outputs/*.cs | Befintlig Manual-källkod, byteidentisk med den lokala taggen manual-1.7.0.0 (9dba65b) |
 | outputs/HDXimport.ico och HDXimport-logo.png | Appens befintliga grafik |
 | work/build_manual_free.py | EXE- och MSIX-bygge |
 | work/run_tests.py | Kompilerar och kör tester för Test och Store |
@@ -31,7 +31,7 @@ Bygget skapar en fristående test-EXE, ett osignerat MSIX-paket och SHA256-kontr
 | docs/VERIFICATION-1.6.md | Historisk rapport med användarbekräftade tester och begränsningar |
 
 ## Avgränsningar
-Manual byggs med STORE_MANUAL och Store-paketet även med STORE_PACKAGE. MANUAL_LICENSING används inte. Automatikkoden för fullversionen saknas; bygg inte utan STORE_MANUAL och anta inte att detta underlag kan återskapa fullversion 3.10.
+Manual byggs med STORE_MANUAL och Store-paketet även med STORE_PACKAGE. MANUAL_LICENSING används inte. Automatikkoden för fullversionen saknas; bygg inte utan STORE_MANUAL och anta inte att detta underlag kan återskapa fullversion 3.12.
 
 Incheckad SHA256-fil avser de ursprungliga 1.6-leveranserna. Ett nytt bygge kan skilja sig binärt, bland annat genom kompilatorns tidsstämplar. Det är inte en verifiering av den redan inskickade Store-filen.
 
@@ -41,3 +41,20 @@ Tester bevisar inte faktisk DelPro-kommunikation, Store-distribution eller lycka
 Ta en avgränsad GitHub-uppgift, arbeta på en egen gren och lämna en pull request med ändring, motiv och kontrollresultat. Läs öppna pull requests före arbete i samma filer. Uppdatera STATUS.md vid överlämning och DECISIONS.md vid nya beslut. Läs alltid om aktuell GitHub-status när du byter assistent.
 
 En assistent behöver egen åtkomst till GitHub genom sin tjänst eller en lokal klon. Dessa instruktioner ger inte automatiskt en AI skrivbehörighet. Publicering till Store och ändringar av verkliga DelPro-data kräver ett särskilt uppdrag.
+
+## Manual 1.7 – överföring 2026-11-25
+Manual 1.7 är redan publicerad i Microsoft Store enligt Patriks bekräftelse 2026-11-25. Bekräftelsedatumet är inte ett fastställt publiceringsdatum.
+
+Produktkällorna är originalfiler från lokal tagg `manual-1.7.0.0`, commit `9dba65b`, före fullversionens senare 3.12-ändringar. Ingen produktkod har rekonstruerats eller ändrats för överföringen. Källorna innehåller även historiska villkorliga delar för fullversionen; dess kompletta byggunderlag ingår inte.
+
+Färgförklaringen ovanför knapparna, DelPro-guiden och anslutningstestet finns i detta underlag. De två PNG-bilderna i `outputs/bilder` är nödvändiga guide-/dokumentationsresurser och bäddas in som CmdTree och CmdSetting. Byggskriptet behåller main-grenens portabla SDK-sökning och överskrivningsskydd.
+
+`work/run_tests.py` kör de tre befintliga testgrupperna och åtta ytterligare 1.7-grupper, med både STORE_MANUAL och STORE_MANUAL,STORE_PACKAGE. Samtliga ISO-program är lokala mockprogram i work/test311-bin. Testerna kan skapa skärmbilder och simulerade filer, vilka inte ska checkas in.
+
+Se [VERIFICATION-1.7.md](docs/VERIFICATION-1.7.md) för källursprung, leveranskontroll och gränsen för Store-verifieringen. Efter ett rent bygge kan en dator med de bevarade originalleveranserna köra:
+
+```powershell
+python work/verify_manual17_artifacts.py "sökväg till originalprojektet"
+```
+
+Detta kräver Windows PowerShell och jämför hela EXE-innehållet efter tre snävt avgränsade kompilatorvariationer: PE-tidsstämpel, modulens MVID och GUID i PrivateImplementationDetails-namnet. Originalfilerna ändras aldrig. Paketens råa kontrollsummor förväntas skilja sig vid ombygge. Ingen Store-inloggning eller kontroll av Partner Centers uppladdade fil ingår.

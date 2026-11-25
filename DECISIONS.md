@@ -32,3 +32,17 @@ Datum: 2026-11-04.
 Status: infört i utvecklingsunderlaget.
 Beslut: automatiska kontroller bygger och testar Manual med simulerad ISO och läsbehörighet till repot. Store-publicering, signering med privata nycklar och verklig import ingår inte.
 Motiv: en kodändring ska kunna kontrolleras utan att ändra verkliga djurdata eller publicerade programversioner.
+
+## D005 – Överför verifierade originalkällor för Manual 1.7
+Datum: 2026-11-25.
+Status: genomförande av användarens uttryckliga uppdrag; lämnas som PR utan merge.
+Beslut: använd lokal tagg manual-1.7.0.0 (9dba65b) som källursprung och verifiera ett rent bygge mot de bevarade 1.7-leveranserna. Överför inte senare fullversionsändringar för 3.12. Bevara originalkällornas byteinnehåll, även BOM/radslut och originaltesternas formatering.
+Motiv: nästa UI-ändring måste utgå från den rätta Manual-versionen. Verifieringsresultat och begränsningen för Store-uppladdningen dokumenteras i docs/VERIFICATION-1.7.md.
+Konsekvens: två nödvändiga guidebilder ingår som dokumentationsresurser; byggda program/paket, SDK, certifikat och verkliga gårdsdata ingår inte. PR #2 lämnas orörd och dokumentationsöverlappningen måste samordnas vid granskning.
+
+## D006 – Layouttester använder uttrycklig renderingsstorlek
+Datum: 2026-11-25.
+Status: verifierat i Windows lokalt och [GitHub Actions](https://github.com/andepa-tools/HDX-import/actions/runs/45593495271), införs via PR #3 och förs vidare till PR #4.
+Beslut: låt enbart ReviewForm i testet återge den begärda fönsterstorleken även när CI-skrivbordet är mindre. Testlokal Win32-storlek och WM_GETMINMAXINFO används eftersom både Form.Size och MinimumSize/MaximumSize begränsas av WinForms/Windows. Kontrollera faktisk storlek och logga skrivbord, arbetsyta, maximal spårningsstorlek och DPI.
+Motiv: kravet på minst åtta kompletta rader gäller 1180×900. CI gav i stället 1044×788 på ett 1024×768-skrivbord vid 96 DPI. Efter fixering visar samma produktkod tolv rader, som lokalt. Ett mindre fönster får naturligt plats med färre rader; testet kontrollerar därför även minsta avsedda 980×760 och att sista djuret är nåbart med rullning. Åttaraderskravet sänks inte och appens layout/knappar ändras inte.
+Konsekvens: testerna bevisar layout vid de angivna storlekarna, inte att 1180×900 ryms på alla skärmar eller att alla DPI-inställningar testats. UI-bilder sparas som tidsbegränsad Actions-artefakt för PR-granskning i stället för att checkas in.
