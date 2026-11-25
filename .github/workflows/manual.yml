@@ -18,3 +18,12 @@ jobs:
         run: python work/run_tests.py
       - name: Bygg test-EXE och osignerat MSIX
         run: python work/build_manual_free.py
+      - name: Spara skärmbilder från UI-testerna
+        uses: actions/upload-artifact@v4
+        with:
+          name: manual-1.7-preview
+          path: |
+            outputs/preview-1.7-huvudfonster-fore-lasning.png
+            outputs/preview-1.7-huvudfonster-efter-lasning.png
+          if-no-files-found: error
+          retention-days: 30

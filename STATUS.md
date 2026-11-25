@@ -58,3 +58,44 @@ Pull request #1 är sammanfogad med main (mergecommit `019a2b89424542c27b3157596
 
 ## Publiceringsstatus – 2026-11-04
 Användaren bekräftar att **HDX Import Manual 1.6 är publicerad**. Detta ersätter tidigare uppgifter ovan om att versionen väntar på publicering. Uppgiften bygger på användarens bekräftelse; Store-sidan och uppdatering på kunddator har inte kontrollerats direkt i denna uppdatering. Fullversion 3.10 har fortsatt separat versionsserie.
+
+## Källkodsöverföring Manual 1.7 – 2026-11-25
+- Uppdrag: överför den Store-inskickade Manual 1.7-källan för fortsatt UI-arbete. Gren: `codex/manual-1.7-source`, från main `4ffc29662e51fd7e483f2fee2512e5092415e2ce`.
+- Faktisk läs-/skrivåtkomst till originalprojektet på användarens Windows-dator verifierad. De sju produktkällorna och relevanta originaltester hämtades byteidentiskt från lokal tagg `manual-1.7.0.0` (`9dba65b`). Originalprojektets pågående 3.12-arbete lämnas orört.
+- Öppna PR:er kontrollerade före ändring: #2, `codex/release-3.11-handoff`, ändrar README och STATUS. Den lämnas öppen och orörd. Denna PR kompletterar samma dokumentation; läs båda och bevara respektive historik vid senare sammanslagning.
+- Manual 1.7 är inskickad till Store enligt användarens tidigare uppgift. Partner Center har inte kontrollerats. Lokal original-MSIX har rätt bevarad SHA256 och innehåller exakt originalets Store-EXE. Ett rent bygge av överförd källa matchar båda originalprogrammen efter enbart dokumenterade kompilatoridentifierare/tidsstämpel. Se docs/VERIFICATION-1.7.md.
+- Inga EXE/MSIX, SDK, certifikat, privata nycklar eller verkliga gårds-/djurdata ingår. Två nödvändiga guidebilder ingår som dokumentationsresurser.
+- Nästa steg: granska denna PR och samordna dokumentationen med #2. Claude ska utgå från denna 1.7-gren för den separat beställda knappändringen. Ingen merge, release eller Store-publicering har gjorts i denna uppgift.
+
+### Slutkontroller 2026-11-25
+- `python work/run_tests.py`: exitkod 0, alla 22 simulerade körningar godkända (11 grupper × Test/Store). Första begränsade UI-körningen fick timeout vid processavslut; hela omkörningen med vanlig lokal Windows-åtkomst passerade.
+- `python work/build_manual_free.py`: exitkod 0, Test-EXE och osignerat MSIX byggda och paketvaliderade i den separata arbetskopian. MAKEAPPX pekade på den befintliga lokala SDK-installationen.
+- `python work/verify_manual17_artifacts.py ..`: exitkod 0; ursprungliga leveranshashar stämmer och båda ombyggda programmen matchar originalen efter endast dokumenterade kompilatorvariationer.
+- De sju produktkällornas Git-indexinnehåll är byteidentiskt med originaltaggen. Inga oavsiktliga binärer/hemligheter/testdata finns bland de 35 överförda filerna. GitHub Actions-resultat ska läsas i PR:ns kontroller; de lokala resultaten ovan är separata.
+
+## Bekräftad Store-publicering – 2026-11-25
+Patrik bekräftar att **HDX Import Manual 1.7 redan är publicerad i Microsoft Store**. Detta ersätter tidigare uppgifter om enbart inskickad version eller okänd publiceringsstatus. Datumet avser bekräftelsen; det faktiska publiceringsdatumet har inte angetts. Källkodsöverföringen ligger i [PR #3](https://github.com/andepa-tools/HDX-import/pull/3), gren `codex/manual-1.7-source`, utan merge. Endast dokumentationen uppdateras med denna uppgift; produktkod och tidigare testresultat är oförändrade. Store-sidan, Partner Centers uppladdade fil och uppdatering på kunddator har inte kontrollerats direkt. Nästa steg är fortsatt granskning av PR #3 och samordning med PR #2.
+
+## Överlämning – 2026-11-25 (Claude)
+- Uppgift: tydligare knappar i Manual 1.7 enligt Patriks godkända skiss.
+- Gren: `claude/manual-1.7-knappar`, utgår från `codex/manual-1.7-source` (PR #3). Pull request mot main, ingen merge.
+- Ändrat i outputs/HdxImportSv.cs (endast utseende, ingen logik):
+  - Knappen för nästa steg är stor (Segoe UI 11 fet, minst 44 px) och fylld: Läs = blå, Skriv = grön. Stegraden får samma färg.
+  - Den knapp som inte är nästa steg blir liten och grå med kontur. Läs-knappen heter "Läs igen" när en lista redan är inläst.
+  - Öppna svarsfil, Spara läsbegäran, Spara importfil, Inställningar, Om programmet, Så ställer du in DelPro, Testa anslutningen och Stäng är små grå knappar (9 pt, 28 px).
+  - Raka hörn (FlatStyle). Rundade hörn ingår inte.
+- Kontroller: koden har inte kompilerats eller körts lokalt (ingen Windows/.NET i Claudes miljö). Kompilering och simulerade tester ska läsas i GitHub Actions för PR:n och köras av Patrik på Windows. Ingen DelPro-anslutning.
+- Känt hinder: CI för PR #3 fallerade redan före denna ändring i Review311Tests ("30 animals must show at least 8 complete rows; actual 7"), troligen på grund av fönster/DPI på GitHubs Windows-maskin. Codex rapporterade lokalt godkänt.
+- Nästa steg: Patrik bygger grenen med `python work/run_tests.py` och `python work/build_manual_free.py`, granskar utseendet och lämnar synpunkter. Ingen version höjd, ingen release.
+- CI-resultat 2026-11-25 (commit c1d625d): kompilering OK; AccessTests, BTests, DisplayTests, Round3Tests och Round2Tests godkända. Körningen stoppade sedan i Review311Tests med samma fel som PR #3 (7 av 8 rader). Testerna efter Review311Tests, bl.a. Ui311Tests och Visual311Tests, har därför inte körts i CI och måste köras lokalt på Windows.
+- En första version bröt Round3Tests (grå bakgrund vid saknad ISO-sökväg); rättat i c1d625d.
+
+## Överlämning – 2026-11-25 (Codex, Windows/CI för PR #3 och #4)
+- Uppgift och grenar: felsök Review311Tests i `codex/manual-1.7-source` ([PR #3](https://github.com/andepa-tools/HDX-import/pull/3)) och testa Claudes knappar i `claude/manual-1.7-knappar` ([PR #4](https://github.com/andepa-tools/HDX-import/pull/4)). Separata rena arbetskopior skapades från GitHub; ursprungsprojektet och PR #2 lämnades orörda.
+- Orsak verifierad i Windows CI: skrivbord 1024×768, arbetsyta 1024×720 och 96 DPI. WinForms begränsade det begärda 1180×900-fönstret till `SystemInformation.MaxWindowTrackSize`, 1044×788. Testet räknade alltså rader vid fel storlek. Lokalt är skrivbordet 1920×1080 vid samma DPI. Se [diagnostisk körning](https://github.com/andepa-tools/HDX-import/actions/runs/45593094126).
+- Genomfört: endast testunderlaget och CI ändrades. ReviewForm får den uttryckliga renderingsstorleken genom testlokal SetWindowPos/WM_GETMINMAXINFO-hantering; verklig storlek kontrolleras och skärmmått/DPI loggas. Kravet `displayed >= 8` är oförändrat. Både 980×760 och 1180×900 kontrolleras, inklusive att sista av 30 simulerade djur går att nå med rullning. Appens utseende, knappar och importlogik är oförändrade.
+- Kontroller och resultat: [grön Windows CI för PR #3, commit 597a4ef](https://github.com/andepa-tools/HDX-import/actions/runs/45593495271): samtliga 22 körningar (11 grupper × Test/Store) och EXE/osignerat MSIX 1.7.0.0 godkända. CI mäter före fixering 1044×788, efter fixering 1180×900, därefter 12 kompletta rader och tabellhöjd 319. Samma 12 rader mäts lokalt. Inga krav sänkta och ingen produktlayout ändrad.
+- Windows lokalt: `python work/run_tests.py` godkänt i både PR #3- och PR #4-kopian; slutlig Review311Tests-hantering dessutom körd separat för Test och Store i PR #3. Samtliga grupper: AccessTests, BTests, DisplayTests, Round3Tests, Round2Tests, Review311Tests, Ui311Tests, Retry311Tests, Visual311Tests, Response311Tests och WaitTests. `python work/build_manual_free.py` godkänt i båda rena kopiorna, med MAKEAPPX pekande på befintlig lokal SDK. Ingen SDK installerades och ingen version höjdes.
+- Skärmbilder: CI sparar `preview-1.7-huvudfonster-fore-lasning.png` och `preview-1.7-huvudfonster-efter-lasning.png` som artefakten `manual-1.7-preview` (30 dagar). Bilder och byggda binärer checkas inte in. PR #4:s kommentar ska innehålla länk till dess egen bildartefakt och fullständig grupprapport. Webbläsaruppladdning av inline-bilder kunde inte användas eftersom datorstyrningen inte säkert kunde fastställa aktuell URL.
+- Avgränsning: endast simulerad ISO användes. Ingen verklig DelPro-import, ingen PR-merge till main, release, publicering eller versionshöjning. Fixcommittarna har förts till PR #4 genom vanliga merges mellan arbetsgrenarna; det är inte en sammanslagning av PR:erna.
+- Nästa konkreta steg: läs aktuella head-committars kontroller i PR #3/#4 och PR #4:s testkommentar; Patrik granskar knapparna i bildartefakten. Efter granskning får Patrik besluta separat om PR-merge. Äldre överlämningar ovan bevaras som historik.

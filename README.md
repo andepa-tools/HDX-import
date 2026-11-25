@@ -28,4 +28,4 @@ HDX import är ett fristående verktyg för import till DelPro. Detta projekt an
 
 ## Utveckling och AI-samarbete
 
-Utvecklingsunderlag för **HDX Import Manual 1.6** finns nu i repot. Manual/Store och fullversion 3.10 har separata versionsserier. Läs [DEVELOPMENT.md](DEVELOPMENT.md) för bygge och tester, [AGENTS.md](AGENTS.md) för gemensamma arbetsregler och [STATUS.md](STATUS.md) för aktuell överlämning. Claude börjar även i [CLAUDE.md](CLAUDE.md).
+Utvecklingsunderlag för **HDX Import Manual 1.7** finns nu i repot. Manual/Store och fullversionen har separata versionsserier. Läs [DEVELOPMENT.md](DEVELOPMENT.md) för bygge och tester, [AGENTS.md](AGENTS.md) för gemensamma arbetsregler och [STATUS.md](STATUS.md) för aktuell överlämning. Claude börjar även i [CLAUDE.md](CLAUDE.md).

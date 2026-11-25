@@ -1,4 +1,4 @@
-using System;using System.IO;using System.Linq;
+﻿using System;using System.IO;using System.Linq;
 public static class LogRetention {
  public static readonly string[] KnownFiles={"request.txt","before.txt","fresh.txt","after.txt","read_log.txt","refresh_log.txt","verify_log.txt","review.txt","automatic_log.txt","import.txt","import_output.txt","import_log.txt","verification.txt","output.txt","log.txt","before_log.txt","after_log.txt","preview_source.txt"};
  public static int Clean(string root,DateTime utcNow){

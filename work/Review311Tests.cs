@@ -1,0 +1,47 @@
+﻿using System;using System.IO;using System.Linq;using System.Reflection;using System.Windows.Forms;using System.Drawing;
+class ReviewForm:MainForm{
+ [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+ struct MinMaxInfo{public Point Reserved,MaxSize,MaxPosition,MinTrackSize,MaxTrackSize;}
+ [System.Runtime.InteropServices.DllImport("user32.dll",SetLastError=true)]
+ static extern bool SetWindowPos(IntPtr window,IntPtr after,int x,int y,int width,int height,uint flags);
+ Size renderSize;
+ // Only the test window may render beyond the CI desktop. Preserve production
+ // borders/fonts/layout; bypass both managed and native tracking-size limits.
+ protected override void WndProc(ref Message message){
+  base.WndProc(ref message);
+  if(message.Msg==0x0024&&!renderSize.IsEmpty){
+   var limits=(MinMaxInfo)System.Runtime.InteropServices.Marshal.PtrToStructure(message.LParam,typeof(MinMaxInfo));
+   limits.MaxSize=new Point(renderSize.Width,renderSize.Height);limits.MaxTrackSize=limits.MaxSize;
+   System.Runtime.InteropServices.Marshal.StructureToPtr(limits,message.LParam,false);
+  }
+ }
+ public void RenderAt(Size size){renderSize=size;if(!SetWindowPos(Handle,IntPtr.Zero,0,0,size.Width,size.Height,0x0016))throw new System.ComponentModel.Win32Exception();}
+ protected override void OnShown(EventArgs e){}
+}
+class Review311Tests{
+ static BindingFlags F=BindingFlags.NonPublic|BindingFlags.Instance;static void Check(bool ok,string message){if(!ok)throw new Exception(message);}
+ static System.Collections.Generic.IEnumerable<Control> All(Control root){foreach(Control c in root.Controls){yield return c;foreach(var x in All(c))yield return x;}}
+ static void Pump(){for(int i=0;i<10;i++)Application.DoEvents();}
+ static void Snap(Form f,string name){
+#if STORE_MANUAL
+ using(var image=new Bitmap(f.Width,f.Height)){f.DrawToBitmap(image,new Rectangle(Point.Empty,image.Size));image.Save("outputs/"+name);}
+#endif
+ }
+ [STAThread]static int Main(){try{Application.EnableVisualStyles();string input=Path.GetFullPath("work/review311-30.txt");File.WriteAllLines(input,Enumerable.Range(1,30).Reverse().Select(i=>i.ToString("D6")+"\t"+(i%6==0?"?":"SE-020201-"+(1000+i))+"\t"+(i%6==1?"752002020112349":"?")+"\t"+(i%6==2?"12345":"0")).Concat(new[]{"ZN"}));
+ foreach(var size in new[]{new Size(980,760),new Size(1180,900)})using(var form=new ReviewForm()){form.Size=size;((TextBox)typeof(MainForm).GetField("iso",F).GetValue(form)).Text=Path.GetFullPath("work/test311-bin/MockB.exe");typeof(MainForm).GetMethod("SetSettingsExpanded",F).Invoke(form,new object[]{false});form.Show();Pump();
+ // Windows can clamp a normal window to the CI desktop's maximum tracking size.
+ // This test measures an explicit rendering viewport, not the runner's monitor.
+ Size desktopConstrained=form.Size;
+ form.RenderAt(size);Pump();
+ Check(form.Size==size,"requested review viewport was not applied: "+form.Size);
+ using(var graphics=form.CreateGraphics())Console.WriteLine("Review viewport: requested="+size+", before pin="+desktopConstrained+", actual="+form.Size+", client="+form.ClientSize+", screen="+Screen.FromControl(form).Bounds+", working="+Screen.FromControl(form).WorkingArea+", maxTrack="+SystemInformation.MaxWindowTrackSize+", dpi="+graphics.DpiY);
+ var grid=(DataGridView)typeof(MainForm).GetField("grid",F).GetValue(form);var panel=(Panel)typeof(MainForm).GetField("bPanel",F).GetValue(form);var layout=(TableLayoutPanel)grid.Parent;
+ Check(layout.RowCount==10&&layout.GetRow(grid)==7&&layout.RowStyles.Cast<RowStyle>().Count(r=>r.SizeType==SizeType.Percent)==1&&layout.RowStyles[7].SizeType==SizeType.Percent&&layout.RowStyles[7].Height==100,"only grid grows");Check(layout.RowStyles[5].SizeType==SizeType.AutoSize&&!panel.Visible&&layout.GetRowHeights()[5]==0,"hidden B consumes zero height");Check(grid.Height>=150,"table before read height "+grid.Height);Check(((Label)typeof(MainForm).GetField("summary",F).GetValue(form)).Text=="","no duplicate initial help");
+ foreach(var button in layout.GetControlFromPosition(0,9).Controls.OfType<Button>()){Check(button.Text.Length>0&&button.Visible,"file button text/visibility");Check(button.Bottom<=button.Parent.ClientSize.Height&&button.Height>=TextRenderer.MeasureText(button.Text,button.Font).Height+8,"file button clipped: "+button.Text+" bottom="+button.Bottom+" parent="+button.Parent.ClientSize.Height+" button="+button.Height);}
+ Check(grid.ColumnHeadersDefaultCellStyle.WrapMode==DataGridViewTriState.True&&grid.Columns[3].HeaderText=="Nuvarande nummer"&&grid.Columns[4].HeaderText=="Nytt ISO-nummer","short readable headers");Snap(form,size.Width==980?"preview-1.7-huvudfonster-fore-lasning.png":"preview-1.7-huvudfonster-fore-lasning-1180.png");typeof(MainForm).GetMethod("LoadFile",F).Invoke(form,new object[]{input});Pump();Check(panel.Visible&&layout.GetRowHeights()[5]>0,"B expands automatically");Check(grid.DefaultCellStyle.WrapMode==DataGridViewTriState.False&&grid.AutoSizeRowsMode==DataGridViewAutoSizeRowsMode.None&&grid.Rows.Cast<DataGridViewRow>().All(r=>r.Height==24),"fixed single-line rows");int[] weights={80,60,90,90,90,200};for(int i=0;i<6;i++)Check(Math.Abs(grid.Columns[i].FillWeight-weights[i])<0.01,"column weight "+i);
+ Check(grid.Rows.Cast<DataGridViewRow>().All(r=>r.Cells[5].ToolTipText.Length>0),"full explanations in hover");if(size.Width==1180){int displayed=grid.DisplayedRowCount(false);Check(displayed>=8,"30 animals must show at least 8 complete rows; actual "+displayed);Console.WriteLine("1180x900: "+displayed+" complete data rows, table height "+grid.Height);}
+ Check(grid.Height>=100&&grid.ScrollBars==ScrollBars.Both,"small viewport keeps a scrollable table");grid.FirstDisplayedScrollingRowIndex=grid.Rows.Count-1;Pump();Check(grid.Rows[grid.Rows.Count-1].Displayed,"last animal remains reachable by scrolling");grid.FirstDisplayedScrollingRowIndex=0;Pump();
+ Snap(form,size.Width==980?"preview-1.7-huvudfonster-efter-lasning.png":"preview-1.7-huvudfonster-efter-lasning-1180.png");form.Close();}
+ foreach(bool noFiles in new[]{true,false}){string error=SharedHelp.MissingResponseHelp("test/output.txt","test/log.txt",0,noFiles),expected=SharedHelp.TechnicalInformation(error);var lines=expected.Split(new[]{"\r\n"},StringSplitOptions.None);DateTime time;Check(lines.Length==6&&lines[0]=="Felkod: E009 ("+(noFiles?"kommandoraden avstängd":"inget färdigt svar")+")"&&lines[1].StartsWith("Svar: ")&&lines[2].StartsWith("Logg: ")&&lines[3].StartsWith("Avslutningskod: 0.")&&lines[4].StartsWith("Körmapp: ")&&DateTime.TryParseExact(lines[5].Substring(5),"yyyy-MM-dd HH:mm:ss",null,System.Globalization.DateTimeStyles.None,out time),"six technical fields");Check(!expected.Contains("Steg "),"technical part has no guide");using(var window=new ErrorWindow("2026-11-05T10:00:00 FEL\r\n"+error+"\r\nKörningsmapp: outer",null,false,"Den schemalagda körningen fick inget svar från DelPro","Öppna HDX import")){window.Show();Pump();var box=All(window).OfType<TextBox>().Single();Check(box.Text==expected,"monitor and manual technical split");All(window).OfType<Button>().Single(b=>b.Text.StartsWith("Visa teknisk")).PerformClick();Pump();Check(box.Visible,"technical box expands");var original=Clipboard.GetDataObject();DataObject previous=null;if(original!=null){previous=new DataObject();foreach(string format in original.GetFormats(false)){object value=original.GetData(format,false);if(value!=null)previous.SetData(format,false,value);}}try{All(window).OfType<Button>().Single(b=>b.Text=="Kopiera").PerformClick();Check(Clipboard.GetText()==expected,"copy exact technical text");}finally{if(previous!=null)Clipboard.SetDataObject(previous,true,50,100);else Clipboard.Clear();}window.Close();}}
+ Console.WriteLine("PASS: review layout at both sizes before/after read, 30 animals, eight rows, headers/weights, tooltips, zero-height B, technical split and exact copy.");return 0;}catch(Exception e){Console.Error.WriteLine(e);return 1;}}
+}
