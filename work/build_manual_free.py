@@ -40,7 +40,8 @@ def fail(message):
 
 
 for required in [csc, makeappx, base / "AppxManifest.xml", manifest, out / "HDXimport.ico",
-                 out / "HDXimport-logo.png"] + [out / s for s in SOURCES]:
+                 out / "HDXimport-logo.png", out / "bilder/kommandorad-1-installning.png",
+                 out / "bilder/kommandorad-2-utrustningstrad.png"] + [out / s for s in SOURCES]:
     if not required.exists():
         fail("Saknar " + str(required) + ". Kör skriptet från projektmappen.")
 
@@ -67,6 +68,8 @@ def compile_exe(defines, target):
             "/win32icon:" + str(out / "HDXimport.ico"), "/win32manifest:" + str(manifest),
             "/resource:" + str(out / "HDXimport.ico") + ",AppIcon",
             "/resource:" + str(out / "HDXimport-logo.png") + ",AppLogo",
+            "/resource:" + str(out / "bilder/kommandorad-2-utrustningstrad.png") + ",CmdTree",
+            "/resource:" + str(out / "bilder/kommandorad-1-installning.png") + ",CmdSetting",
             "/r:System.Windows.Forms.dll", "/r:System.Drawing.dll", "/r:System.Core.dll"]
     args += [str(out / s) for s in SOURCES]
     result = subprocess.run(args, capture_output=True, text=True)

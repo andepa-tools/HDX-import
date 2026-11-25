@@ -24,3 +24,16 @@ outputs/HDXimport-B-val-i-manuell-flik.png
 outputs/*-SHA256.txt
 !outputs/HDX-Import-Manual-1.6-SHA256.txt
 Runs/
+
+# Simulerade 1.7-testresultat
+outputs/preview-1.7-*.png
+work/Display17.png
+work/manual-B-val-17.png
+work/review311-30.txt
+work/round2-*/
+work/round3-tests-*/
+work/ui311-*/
+work/response311-*/
+work/retry311-*/
+work/wait37_*/
+work/visual311-mixed.txt

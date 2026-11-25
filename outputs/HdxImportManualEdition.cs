@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Text;
 using System.Reflection;
-[assembly: AssemblyVersion("1.6.0.0")]
-[assembly: AssemblyFileVersion("1.6.0.0")]
-[assembly: AssemblyInformationalVersion("1.6")]
+[assembly: AssemblyVersion("1.7.0.0")]
+[assembly: AssemblyFileVersion("1.7.0.0")]
+[assembly: AssemblyInformationalVersion("1.7")]
 [assembly: AssemblyProduct("HDX Import Manual")]
 [assembly: AssemblyTitle("HDX Import Manual")]
 public static class ManualEdition {
@@ -44,11 +44,7 @@ public static class ManualIsoFiles {
    }
   }catch(Exception e){throw new IOException("E012: Filåtkomstkontrollen misslyckades. Ingen ISO-process startad.\r\nBegäran: "+input+"\r\nSvar: "+output+"\r\nLogg: "+log+"\r\nKontrollera läs- och skrivrättigheter. Befintliga svar/loggar skrivs inte över.\r\n"+e.Message,e);}
  }
- public static string Describe(string path){
-  try{using(var f=new FileStream(path,FileMode.Open,FileAccess.Read,FileShare.ReadWrite)){return path+": "+(f.Length==0?"tom":"finns, "+f.Length+" byte (kan fortfarande vara låst eller ofärdig)");}}
-  catch(FileNotFoundException){return path+": saknas";}catch(DirectoryNotFoundException){return path+": mappen saknas";}
-  catch(UnauthorizedAccessException e){return path+": åtkomst nekad. "+e.Message;}
-  catch(IOException e){return path+": kunde inte öppnas (låst eller annat filfel). "+e.Message;}
- }
- public static string Missing(string output,string log,int code){return "E009: Ingen färdig svarsfil kunde läsas inom 30 sekunder.\r\n"+Describe(output)+"\r\n"+Describe(log)+"\r\nISO-processorns avslutningskod: "+code+" (kod 0 bevisar inte att begäran behandlats).\r\nAppens filåtkomst kontrollerades före start. ISO-processorns åtkomst är inte bekräftad om svaret saknas.\r\nKontrollera att ISO-processorn kan läsa och skriva i körningsmappen, att rätt iso32.exe valts och att Använd kommandorad ISO är sparat i DelPro. Granska loggen om den finns. Läs om uppgifterna före ett nytt importförsök.";}
+ public static string Describe(string path){return SharedHelp.Describe(path);}
+ public static string Missing(string output,string log,int code){return SharedHelp.MissingResponseHelp(output,log,code);}
+
 }

@@ -1,9 +1,9 @@
-using System;using System.IO;using System.Reflection;
+﻿using System;using System.IO;using System.Reflection;
 class AccessTests{
  static void Check(bool ok,string msg){if(!ok)throw new Exception(msg);}
  static bool Fails(Action action){try{action();return false;}catch(IOException e){return e.Message.Contains("E012:");}}
  static int Main(){try{
- Check(ManualEdition.Version=="1.6"&&ManualEdition.RunsRoot==@"C:\DelPro\ISO\HDXImport\Runs","version/root");
+ Check(ManualEdition.Version=="1.7"&&ManualEdition.RunsRoot==@"C:\DelPro\ISO\HDXImport\Runs","version/root");
  string root=Path.GetFullPath("work/access-"+Guid.NewGuid().ToString("N"));Directory.CreateDirectory(root);string req=Path.Combine(root,"request.txt"),o=Path.Combine(root,"output.txt"),l=Path.Combine(root,"log.txt");Logic.Write(req,Logic.Request());
  ManualIsoFiles.Check(req,o,l);Check(!File.Exists(o)&&!File.Exists(l),"probes removed before launch");
  File.WriteAllText(o,"preserve");Check(Fails(()=>ManualIsoFiles.Check(req,o,l))&&File.ReadAllText(o)=="preserve","existing output protected");File.Delete(o);

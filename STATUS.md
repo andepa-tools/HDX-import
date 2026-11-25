@@ -58,3 +58,17 @@ Pull request #1 är sammanfogad med main (mergecommit `019a2b89424542c27b3157596
 
 ## Publiceringsstatus – 2026-11-04
 Användaren bekräftar att **HDX Import Manual 1.6 är publicerad**. Detta ersätter tidigare uppgifter ovan om att versionen väntar på publicering. Uppgiften bygger på användarens bekräftelse; Store-sidan och uppdatering på kunddator har inte kontrollerats direkt i denna uppdatering. Fullversion 3.10 har fortsatt separat versionsserie.
+
+## Källkodsöverföring Manual 1.7 – 2026-11-25
+- Uppdrag: överför den Store-inskickade Manual 1.7-källan för fortsatt UI-arbete. Gren: `codex/manual-1.7-source`, från main `4ffc29662e51fd7e483f2fee2512e5092415e2ce`.
+- Faktisk läs-/skrivåtkomst till originalprojektet på användarens Windows-dator verifierad. De sju produktkällorna och relevanta originaltester hämtades byteidentiskt från lokal tagg `manual-1.7.0.0` (`9dba65b`). Originalprojektets pågående 3.12-arbete lämnas orört.
+- Öppna PR:er kontrollerade före ändring: #2, `codex/release-3.11-handoff`, ändrar README och STATUS. Den lämnas öppen och orörd. Denna PR kompletterar samma dokumentation; läs båda och bevara respektive historik vid senare sammanslagning.
+- Manual 1.7 är inskickad till Store enligt användarens tidigare uppgift. Partner Center har inte kontrollerats. Lokal original-MSIX har rätt bevarad SHA256 och innehåller exakt originalets Store-EXE. Ett rent bygge av överförd källa matchar båda originalprogrammen efter enbart dokumenterade kompilatoridentifierare/tidsstämpel. Se docs/VERIFICATION-1.7.md.
+- Inga EXE/MSIX, SDK, certifikat, privata nycklar eller verkliga gårds-/djurdata ingår. Två nödvändiga guidebilder ingår som dokumentationsresurser.
+- Nästa steg: granska denna PR och samordna dokumentationen med #2. Claude ska utgå från denna 1.7-gren för den separat beställda knappändringen. Ingen merge, release eller Store-publicering har gjorts i denna uppgift.
+
+### Slutkontroller 2026-11-25
+- `python work/run_tests.py`: exitkod 0, alla 22 simulerade körningar godkända (11 grupper × Test/Store). Första begränsade UI-körningen fick timeout vid processavslut; hela omkörningen med vanlig lokal Windows-åtkomst passerade.
+- `python work/build_manual_free.py`: exitkod 0, Test-EXE och osignerat MSIX byggda och paketvaliderade i den separata arbetskopian. MAKEAPPX pekade på den befintliga lokala SDK-installationen.
+- `python work/verify_manual17_artifacts.py ..`: exitkod 0; ursprungliga leveranshashar stämmer och båda ombyggda programmen matchar originalen efter endast dokumenterade kompilatorvariationer.
+- De sju produktkällornas Git-indexinnehåll är byteidentiskt med originaltaggen. Inga oavsiktliga binärer/hemligheter/testdata finns bland de 35 överförda filerna. GitHub Actions-resultat ska läsas i PR:ns kontroller; de lokala resultaten ovan är separata.
